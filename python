@@ -5,24 +5,32 @@ df = pd.read_csv("https://raw.githubusercontent.com/rex619/excel/master/task1.cs
 
 df['Date'] = pd.to_datetime(df.Date)
 df['Quarter'] = df.Date.dt.quarter
-'''df['month_year'] = pd.to_datetime(df['Date']).dt.to_period('M')'''
 
 year_input = input("Enter year: ")
 month_name_input = input("Enter month: ")
 month_input = input("Enter month value: ")
 quarter_input = input("Enter quarter: ")
 
-
 startdate_year = year_input
 enddate_year = year_input
 
 enddate_month = list(calendar.month_abbr).index(str(month_name_input))
+
 startdate_month = int(enddate_month) - int(month_input)
 
-startdate = startdate_year + '-' + str(startdate_month) + '-' + "01"
+if(startdate_month < 1 and int(year_input) > 0):
+ startdate_month = 12 - int(enddate_month)
+ startdate_year = int(year_input) - 1
+
+
+
+startdate = str(startdate_year) + '-' + str(startdate_month) + '-' + "01"
 enddate = enddate_year + '-' + str(enddate_month) + '-' + "01"
 
 print(startdate)
 print(enddate)
 
 print(df[df["Date"].isin(pd.date_range(startdate, enddate))])
+
+
+
